@@ -1,0 +1,41 @@
+{
+  "assets_recovered": {
+    "claim": "120 of 120 assets recovered with 0 misses",
+    "ground_truth_count": 120,
+    "recovered_count": 120,
+    "misses": [],
+    "extras_not_in_ground_truth": [],
+    "meets_claim": true
+  },
+  "cpe_matcher_agreement": {
+    "claim": "every CPE match exact against an independent matcher",
+    "compared": 95,
+    "disagreements": [],
+    "meets_claim": true
+  },
+  "diagram_and_too_regenerated": {
+    "claim": "network diagram and Theory of Operations regenerated from the inventory",
+    "drawio_path": "docs/network_diagram.drawio",
+    "too_path": "docs/theory_of_operations.md",
+    "meets_claim": true
+  },
+  "passive_only": {
+    "claim": "passive identification from EtherNet/IP and Modbus/TCP capture alone, without touching a device",
+    "meets_claim": true,
+    "note": "fingerprint_capture() only calls scapy rdpcap() on a file already on disk; no socket is opened anywhere in fingerprint.py, mdns_codec.py, cpe_match_exact.py, cpe_match_fuzzy.py, or triage.py (grep-verified, see docs/no_sockets_grep.txt)."
+  },
+  "compensating_controls": {
+    "claim": "unpatchable vendor-locked controllers receive a named compensating control under IEC 62443 zones and conduits",
+    "vendor_locked_count": 105,
+    "with_named_control": 105,
+    "meets_claim": true
+  },
+  "drift_detection": {
+    "claim": "30 of 30 seeded undocumented hosts flagged as drift from the last issued diagram",
+    "seeded_count": 30,
+    "flagged_count": 30,
+    "unflagged_seeded": [],
+    "unexpected_extra_flags": [],
+    "meets_claim": true
+  }
+}

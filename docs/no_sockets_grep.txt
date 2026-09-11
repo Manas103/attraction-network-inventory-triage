@@ -1,0 +1,1 @@
+(empty output above means no match, confirming no socket/send calls in the passive analysis path)

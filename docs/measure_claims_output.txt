@@ -1,0 +1,8 @@
+WARNING: No libpcap provider available ! pcap won't be used
+assets_recovered:        120/120 (misses=0)  meets_claim=True
+cpe_matcher_agreement:   95/95  meets_claim=True
+drift_detection:         30/30  meets_claim=True
+compensating_controls:   105/105  meets_claim=True
+diagram_and_too:         meets_claim=True
+passive_only:            meets_claim=True
+results written to C:\Users\Manas\Downloads\Total Job Application process flow\projects\attraction-network-inventory-triage\docs\measured_claims.json

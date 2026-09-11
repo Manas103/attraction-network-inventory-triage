@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# SQLite inventory store (regenerate with: venv/Scripts/python.exe scripts/measure_claims.py)
+data/inventory.db
+
+# Small committed portfolio artifacts, kept despite the patterns above:
+# data/*.pcap (synthetic fixtures, regenerate with scripts/generate_fixtures.py)
+# docs/*.json, docs/*.txt, docs/*.md, docs/*.drawio (measured output, committed for review)
