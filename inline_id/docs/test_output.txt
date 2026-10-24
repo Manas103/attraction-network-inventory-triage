@@ -1,0 +1,3 @@
+﻿$ make test
+./build/test_decoders
+26 passed, 0 failed

@@ -1,0 +1,5 @@
+build/
+fixtures/*.pcap
+fixtures/*verdicts*.csv
+__pycache__/
+*.pyc

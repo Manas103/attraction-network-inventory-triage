@@ -1,0 +1,12 @@
+total_packets=1200000
+total_bytes=157228890
+wall_seconds=0.27039
+throughput_gbps=4.65191
+throughput_pps=4.43803e+06
+total_flows=221055
+decision_latency_p50_us=0.03
+decision_latency_p95_us=0.21
+decision_latency_p99_us=1.933
+decision_latency_max_us=7926.56
+evasion_like_flows_found=40
+evasion_flows_caught=40

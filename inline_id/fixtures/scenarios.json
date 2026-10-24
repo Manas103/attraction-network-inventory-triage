@@ -1,0 +1,407 @@
+{
+  "total_packets": 1200000,
+  "total_flows": 221055,
+  "mgmt_subnet_prefix": "10.20.0.",
+  "evasion_flows": [
+    {
+      "proto": "tcp",
+      "src": "198.51.100.0",
+      "dst": "10.30.0.10",
+      "sport": 43000,
+      "dport": 2200,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.1",
+      "dst": "10.30.0.11",
+      "sport": 43001,
+      "dport": 2201,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.2",
+      "dst": "10.30.0.12",
+      "sport": 43002,
+      "dport": 2202,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.3",
+      "dst": "10.30.0.13",
+      "sport": 43003,
+      "dport": 2203,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.4",
+      "dst": "10.30.0.14",
+      "sport": 43004,
+      "dport": 2204,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.5",
+      "dst": "10.30.0.15",
+      "sport": 43005,
+      "dport": 2205,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.6",
+      "dst": "10.30.0.16",
+      "sport": 43006,
+      "dport": 2206,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.7",
+      "dst": "10.30.0.17",
+      "sport": 43007,
+      "dport": 2207,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.8",
+      "dst": "10.30.0.18",
+      "sport": 43008,
+      "dport": 2208,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.9",
+      "dst": "10.30.0.19",
+      "sport": 43009,
+      "dport": 2209,
+      "true_protocol": "SSH",
+      "evasion_type": "port_evasion",
+      "packet_count": 15
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.0",
+      "dst": "10.30.0.50",
+      "sport": 44000,
+      "dport": 8445,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.1",
+      "dst": "10.30.0.51",
+      "sport": 44001,
+      "dport": 8446,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.2",
+      "dst": "10.30.0.52",
+      "sport": 44002,
+      "dport": 8447,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.3",
+      "dst": "10.30.0.53",
+      "sport": 44003,
+      "dport": 8448,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.4",
+      "dst": "10.30.0.54",
+      "sport": 44004,
+      "dport": 8449,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.5",
+      "dst": "10.30.0.55",
+      "sport": 44005,
+      "dport": 8450,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.6",
+      "dst": "10.30.0.56",
+      "sport": 44006,
+      "dport": 8451,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.7",
+      "dst": "10.30.0.57",
+      "sport": 44007,
+      "dport": 8452,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.8",
+      "dst": "10.30.0.58",
+      "sport": 44008,
+      "dport": 8453,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.9",
+      "dst": "10.30.0.59",
+      "sport": 44009,
+      "dport": 8454,
+      "true_protocol": "SMB",
+      "evasion_type": "port_evasion",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.0",
+      "dst": "198.51.100.200",
+      "sport": 46000,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.1",
+      "dst": "198.51.100.201",
+      "sport": 46001,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.2",
+      "dst": "198.51.100.202",
+      "sport": 46002,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.3",
+      "dst": "198.51.100.203",
+      "sport": 46003,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.4",
+      "dst": "198.51.100.204",
+      "sport": 46004,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.5",
+      "dst": "198.51.100.205",
+      "sport": 46005,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.6",
+      "dst": "198.51.100.206",
+      "sport": 46006,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.7",
+      "dst": "198.51.100.207",
+      "sport": 46007,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.8",
+      "dst": "198.51.100.208",
+      "sport": 46008,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.9",
+      "dst": "198.51.100.209",
+      "sport": 46009,
+      "dport": 80,
+      "true_protocol": "SSH",
+      "evasion_type": "http_tunneled",
+      "packet_count": 12
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.100",
+      "dst": "198.51.100.200",
+      "sport": 46100,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.101",
+      "dst": "198.51.100.201",
+      "sport": 46101,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.102",
+      "dst": "198.51.100.202",
+      "sport": 46102,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.103",
+      "dst": "198.51.100.203",
+      "sport": 46103,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.104",
+      "dst": "198.51.100.204",
+      "sport": 46104,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.105",
+      "dst": "198.51.100.205",
+      "sport": 46105,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.106",
+      "dst": "198.51.100.206",
+      "sport": 46106,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.107",
+      "dst": "198.51.100.207",
+      "sport": 46107,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.108",
+      "dst": "198.51.100.208",
+      "sport": 46108,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    },
+    {
+      "proto": "tcp",
+      "src": "198.51.100.109",
+      "dst": "198.51.100.209",
+      "sport": 46109,
+      "dport": 80,
+      "true_protocol": "SMB",
+      "evasion_type": "http_tunneled",
+      "packet_count": 13
+    }
+  ]
+}
