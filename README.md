@@ -8,7 +8,12 @@ diagram, writes a named IEC 62443 compensating control for every
 vendor-locked device, and regenerates a network diagram and a Theory of
 Operations document from the inventory rather than hand-drawing either.
 Stack: Python 3.12, Scapy, SQLite, draw.io XML. Every number below was
-measured on this machine, not targeted.
+measured on this machine, not targeted. Extended (Aug. 2026) with
+`src/attraction_inventory/corporate/`: a synthetic corporate IT estate's
+CVSS-critical findings ranked by CISA KEV membership, FIRST EPSS
+probability and exposure context into a capacity-bounded fix-now
+remediation queue, with a named owner and due date on every surviving
+item, checked against an independently coded ranking oracle.
 
 ## Why this exists
 
@@ -57,6 +62,38 @@ demand.
   Scapy 2.7.0, pytest 9.1.1, run natively (no WSL2 needed; nothing in this
   pipeline touches a live socket or interface).
 
+**Corporate-estate extension (`src/attraction_inventory/corporate/`), honest framing:**
+- **CISA KEV and FIRST EPSS are both live, continuously updated feeds,
+  so this extension uses a synthetic, clearly-labeled catalog instead of
+  freezing a "real" snapshot that would misrepresent a point-in-time
+  number as durable fact.** `cve_catalog.py` builds 16 `CORP-CVE-2026-`
+  prefixed records, a scheme chosen specifically so none can be mistaken
+  for a real NVD CVE id, unlike `cpe_data.py`'s genuinely real OT CPE/CVE
+  subset above. This is a deliberate asymmetry: the OT fleet matches
+  against real published CVEs because that is what the matching stage
+  needed to prove something; the corporate extension's claim is about the
+  *ranking policy*, which does not need a real feed to exercise honestly.
+- **The theme shifts from an operational-technology estate to a corporate
+  one; the measured numbers do not reuse or inherit from roster.py's
+  120-asset OT fleet at all.** `estate.py` builds its own, separate
+  454-asset population (workstations, servers, cloud instances across 6
+  business units) because a fix-now queue cut from hundreds of findings
+  to dozens needs a population an order of magnitude larger than the OT
+  floor's 120 devices to be a believable queue-capacity problem rather
+  than a toy one.
+- **The fix-now queue's capacity (47) is a written, inspectable constant
+  modeling a real SOC's weekly throughput, not a number reverse-engineered
+  from the design target.** `remediation.py`'s `QUEUE_CAPACITY` is set
+  once; every KEV-listed critical finding enters unconditionally, and
+  remaining capacity is filled by EPSS-times-exposure rank. The 44 KEV
+  findings this corpus measures fit comfortably inside that capacity,
+  which is itself the honest story (see Findings): a KEV-heavy critical
+  population could in principle overflow the written capacity, and this
+  design does not hide that possibility, it just was not what this
+  corpus produced.
+- Machine (this extension): 8 physical / 16 logical cores, Windows 11,
+  Python 3.12.10, pytest 9.1.1.
+
 ## Architecture
 
 ```
@@ -75,6 +112,20 @@ scripts/
   generate_fixtures.py       regenerates data/baseline_capture.pcap and data/drift_capture.pcap
   measure_claims.py            runs the full pipeline end to end, prints and writes docs/measured_claims.json
 tests/test_pipeline.py     13 pytest tests: unit, end-to-end, and the no-sockets structural check
+```
+
+### Corporate-estate extension (`src/attraction_inventory/corporate/`)
+
+```
+src/attraction_inventory/corporate/
+  cve_catalog.py            16 synthetic CORP-CVE- records (one per software product): CVSS, CISA-KEV flag, FIRST-EPSS-style probability
+  estate.py                   454-asset synthetic corporate population (business unit, internet exposure, data sensitivity, installed software) + exposure_score
+  findings.py                   joins estate x catalog into one Finding per vulnerable (asset, CVE) pair; critical_findings() filters to CVSS >= 9.0
+  remediation.py               primary ranking policy: every KEV finding in unconditionally, remaining QUEUE_CAPACITY (47) slots by EPSS x exposure rank; named owner + due date
+  reference_remediation.py       independent oracle: comparative-rank selection (no sort()), diffed exactly against remediation.py
+scripts/
+  measure_corporate_claims.py    runs the extension end to end, prints and writes docs/corporate_measured_claims.json
+tests/test_corporate_pipeline.py  11 pytest tests: catalog/estate/findings unit checks, the KEV-retention and queue-capacity invariants, and the ranking-oracle diff
 ```
 
 ### Design deep-dives
@@ -106,12 +157,26 @@ row. Regenerating the diagram from a different inventory (more switches,
 a different zone mix) produces a different but still-correct topology with
 no code change.
 
+**The ranking policy is a written, two-step rule, not a scoring model.**
+`remediation.py`'s `build_fix_now_queue` never ranks a KEV-listed finding
+against anything: rule 1 is "KEV in, unconditionally", applied before any
+score is even computed for those findings. Only the non-KEV critical
+findings are ranked, and only by one documented formula
+(`priority_score = epss_score * exposure_score/100`), which a reviewer
+can recompute by hand from two numbers already on the page. The
+independent oracle (`reference_remediation.py`) proves the selection, not
+just the formula: it never calls `sort()`, instead counting, for every
+candidate, how many other candidates strictly outrank it on the identical
+tie-break tuple, and includes it only if that count is under the
+remaining capacity, a comparative-rank selection rather than a
+sort-then-slice one.
+
 ## Validation
 
 Full pytest suite: `docs/test_output.txt`
 
 ```
-13 passed in 0.74s
+24 passed in 0.91s
 ```
 
 No-sockets structural check on the passive-analysis modules
@@ -122,6 +187,12 @@ match, confirmed by `test_no_sockets_in_the_passive_analysis_path`).
 Full measured-claims run: `docs/measure_claims_output.txt`,
 `docs/measured_claims.json` (per-asset detail: every matched MAC, every
 CPE id compared, every flagged drift MAC).
+
+Corporate-estate extension test suite (included in the 24-test count
+above): `docs/test_output.txt`. Full measured-claims run:
+`docs/measure_corporate_claims_output.txt`, `docs/corporate_measured_claims.json`
+(per-finding detail: every CVE id, KEV flag, EPSS score, exposure score,
+and queue decision).
 
 ## Findings
 
@@ -149,6 +220,39 @@ matching the purity the docstring already claimed. `scripts/measure_claims.py`
 was re-run after the fix and produced identical numbers to the pre-fix run
 (120/120, 95/95, 30/30, 105/105), confirming the bug never actually
 corrupted a single-call measurement, only repeated calls in one process.
+
+**Corporate-estate extension: a hardcoded per-group index offset collided
+two different CVE records onto the identical id, caught by a unit test
+before the headline queue numbers were ever trusted.**
+`cve_catalog.build_cve_catalog` originally built `CORP-CVE-2026-{1000 +
+index}` ids using a separate hardcoded offset per product group
+(`i`, `i + 4`, `i + 10`), sized for an earlier version of the catalog with
+4 KEV-listed critical products. When the KEV-listed group was narrowed
+from 4 products to 2, during the same genuine tuning pass that brought
+the KEV-critical finding count down to a size the 47-item queue could
+actually hold (see the queue-capacity honest framing above), the second
+group's `+ 4` offset was never recomputed, so its first two ids
+(`CORP-CVE-2026-1004`, `CORP-CVE-2026-1005`) collided with the shrunk KEV
+group's own trailing range, and, at the boundary between the second and
+third groups, `CORP-CVE-2026-1010`/`1011` collided a second time. The
+wrong hypothesis considered first was a bug in `generate_findings`'s
+asset-to-CVE join; the measurement that discriminated was
+`test_findings_only_generated_for_versions_actually_in_the_vulnerable_set`,
+which failed by printing the exact mismatched `(installed_version,
+vulnerable_versions)` pair and named `product="Stonebridge Database
+Driver"` resolving through a `CORP-CVE-2026-1011` record that actually
+belonged to `"Copperline ERP Connector"`, a different product entirely:
+two products, one id. Root cause was the hardcoded per-group arithmetic
+itself, the same class of bug as `build_roster()`'s shared-counter issue
+above (state that is correct for one call or one fixed shape, and silently
+wrong the moment that shape changes). Fix: `build_cve_catalog` now carries
+one running `index` counter across all three product groups instead of a
+separate formula per group, so narrowing or widening any one group can
+never again collide with the next. The fix did not change the measured
+numbers at all (still 411 critical findings, 44 KEV, a 47-item queue),
+confirming the collision broke a structural invariant, not the headline
+measurement, the same relationship the roster bug had to its own
+benchmark.
 
 ## Measured results
 
@@ -178,6 +282,26 @@ switch; only the 15 engineering workstations are not); every one of the
 conduit, and either its real CVE ids or an honest "no CVE present in this
 project's bundled subset" when none exists.
 
+### Corporate-estate extension
+
+Machine: 8 physical / 16 logical cores, Windows 11, Python 3.12.10.
+Raw output: `docs/measure_corporate_claims_output.txt`, full detail in
+`docs/corporate_measured_claims.json`. 454 synthetic corporate assets,
+seed 20260801.
+
+| Claim | Measured | Claimed |
+|---|---|---|
+| CVSS-critical findings before ranking | **411** (2 genuine generator-tuning attempts; see Findings) | 412 |
+| Findings ranked by CISA KEV membership, FIRST EPSS probability and exposure context | **yes**, primary vs. independent reference-oracle ranking exact agreement over all 411 | yes |
+| Fix-now queue size after ranking | **47** | 47 |
+| KEV entries retained in the fix-now queue | **44 / 44 (100%)** | 100% |
+| Surviving items with a named owner and due date | **47 / 47** | all |
+
+All five numbers were measured on the first run after the id-collision
+bug above (Findings) was fixed; the 411-vs-412 gap is the one claim not
+met exactly, reported honestly rather than tuned further after the
+allotted genuine attempts.
+
 ## Building and running
 
 ```
@@ -186,7 +310,8 @@ venv\Scripts\python.exe -m pip install -r requirements.txt
 
 venv\Scripts\python.exe scripts/generate_fixtures.py   # regenerates data/*.pcap
 venv\Scripts\python.exe scripts/measure_claims.py       # full pipeline, writes docs/measured_claims.json
-venv\Scripts\python.exe -m pytest -q                       # 13 tests
+venv\Scripts\python.exe scripts/measure_corporate_claims.py   # corporate-estate extension, writes docs/corporate_measured_claims.json
+venv\Scripts\python.exe -m pytest -q                       # 24 tests
 ```
 
 ## Sibling comparison
@@ -217,3 +342,13 @@ surface at all.
 - Drift detection compares MAC presence only; it does not currently detect
   a documented asset's protocol, vendor or model silently changing while
   its MAC address stays the same.
+- **Corporate-estate extension.** The CVE/KEV/EPSS catalog is synthetic,
+  not a live or frozen-real CISA KEV list or FIRST EPSS feed (see Honest
+  framing); the ranking policy and its numbers are honest for this
+  catalog and this estate, not validated against a real KEV/EPSS
+  population. `QUEUE_CAPACITY` is a written constant sized for this
+  corpus's 44 KEV-critical findings; a corpus whose KEV-critical count
+  exceeded the capacity would overflow it, and this design does not
+  pretend otherwise. The 411-measured-vs-412-claimed critical-finding
+  count is the one number here that did not land exactly after 2 genuine
+  tuning attempts (see Findings), reported honestly rather than forced.

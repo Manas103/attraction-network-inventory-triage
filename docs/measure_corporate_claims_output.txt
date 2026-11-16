@@ -1,0 +1,6 @@
+total findings: 536  critical: 411 (design target 412)
+KEV-critical findings: 44  all retained in queue: True
+fix-now queue size: 47 (capacity 47)
+primary vs. reference queue selection exact agreement: True
+distinct owners used: 6  distinct due-in-days used: [7, 21]
+results written to C:\Users\Manas\Downloads\Auto Job Applier\Total Job Application process flow\projects\attraction-network-inventory-triage\docs\corporate_measured_claims.json
